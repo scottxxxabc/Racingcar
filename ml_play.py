@@ -15,7 +15,7 @@ class MLPlay:
             self.player_no = 3
         self.car_vel = 0
         self.car_pos = (0,0)
-        filename = path.join(path.dirname(__file__),"save\model.pickle")
+        filename = path.join(path.dirname(__file__),"save","model.pickle")
         with open(filename, 'rb') as file:
             self.clf = pickle.load(file)
         pass
