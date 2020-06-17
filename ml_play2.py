@@ -139,20 +139,29 @@ class MLPlay:
 
         y = self.clf.predict(feature)   
         print(y)
+
         if y == 0:
-            return ["SPEED"]
+            action = ["SPEED"]
         if  y == 10:
-            return ["SPEED","MOVE_LEFT"]
+            action = ["SPEED","MOVE_LEFT"]
         if  y == 110:
-            return ["SPEED","MOVE_RIGHT"]
+            action = ["SPEED","MOVE_RIGHT"]
         if  y == 1110:
-            return ["BRAKE","MOVE_LEFT"]
+            action = ["BRAKE","MOVE_LEFT"]
         if  y == 11110:
-            return ["BRAKE","MOVE_RIGHT"]
+            action = ["BRAKE","MOVE_RIGHT"]
         if  y == 111110:
-            return ["BRAKE"]
-        
-        return []
+            action = ["BRAKE"]
+        if targetlane == mycar_lane:
+            if lanes[mycar_lane]+2 < self.car_pos[0] and col[0] == 0:
+                if not("MOVE_LEFT" in action):
+                    action.append("MOVE_LEFT")
+            elif lanes[mycar_lane]-2 > self.car_pos[0] and col[1] == 0:
+                if not("MOVE_RIGHT" in action):
+                    action.append("MOVE_RIGHT")
+
+
+        return action
 
         """
         return ["MOVE_LEFT", "MOVE_RIGHT", "SPEED", "BRAKE"]
