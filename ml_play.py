@@ -87,7 +87,7 @@ class MLPlay:
 
                 rightx = rightcar_pos[0] - car["pos"][0] # x relative position
                 y = self.car_pos[1] - car["pos"][1] # y relative position
-                if rightx <= 45 and rightx >= 0 :
+                if rightx <= 45 and rightx >= 0:
                     if y > 0:
                         if car["velocity"] < self.car_vel-5:
                             if y < 150:
@@ -106,21 +106,29 @@ class MLPlay:
         if self.car_pos[0]>=595:
             row[2]=1
             row[5]=1
+        if mycar_lane==0:
+            col[0]=0
+        if mycar_lane==8:
+            col[1]=0
 
-        minvalue = 100
-        for i in range(9):
-            if lane_count[i] < minvalue:
-                minvalue = lane_count[i]
-                targetlane = i
-            if lane_count[i] == minvalue:
-                if lane_count[i] + abs(mycar_lane-i) < minvalue + abs(mycar_lane-targetlane):
+
+        if scene_info.__contains__("coins"):
+            targetlane = car["coins"][0]//70
+        else:
+            minvalue = 100
+            for i in range(9):
+                if lane_count[i] < minvalue:
                     minvalue = lane_count[i]
                     targetlane = i
-                elif lane_count[i] + abs(mycar_lane-i) == minvalue + abs(mycar_lane-targetlane):
-                    if abs(5-i) < abs(5-targetlane):
+                if lane_count[i] == minvalue:
+                    if lane_count[i] + abs(mycar_lane-i) < minvalue + abs(mycar_lane-targetlane):
                         minvalue = lane_count[i]
                         targetlane = i
-        
+                    elif lane_count[i] + abs(mycar_lane-i) == minvalue + abs(mycar_lane-targetlane):
+                        if abs(5-i) < abs(5-targetlane):
+                            minvalue = lane_count[i]
+                            targetlane = i
+            
         print(lane_count)
 
         feature = []
