@@ -112,22 +112,20 @@ class MLPlay:
             col[1]=0
 
 
-        if scene_info.__contains__("coins"):
-            targetlane = car["coins"][0]//70
-        else:
-            minvalue = 100
-            for i in range(9):
-                if lane_count[i] < minvalue:
+       
+        minvalue = 100
+        for i in range(9):
+            if lane_count[i] < minvalue:
+                minvalue = lane_count[i]
+                targetlane = i
+            if lane_count[i] == minvalue:
+                if lane_count[i] + abs(mycar_lane-i) < minvalue + abs(mycar_lane-targetlane):
                     minvalue = lane_count[i]
                     targetlane = i
-                if lane_count[i] == minvalue:
-                    if lane_count[i] + abs(mycar_lane-i) < minvalue + abs(mycar_lane-targetlane):
+                elif lane_count[i] + abs(mycar_lane-i) == minvalue + abs(mycar_lane-targetlane):
+                    if abs(5-i) < abs(5-targetlane):
                         minvalue = lane_count[i]
                         targetlane = i
-                    elif lane_count[i] + abs(mycar_lane-i) == minvalue + abs(mycar_lane-targetlane):
-                        if abs(5-i) < abs(5-targetlane):
-                            minvalue = lane_count[i]
-                            targetlane = i
             
         print(lane_count)
 
